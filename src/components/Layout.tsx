@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onLogout?: () => void;
   isAdmin?: boolean;
 }

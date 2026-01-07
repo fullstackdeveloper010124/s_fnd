@@ -16,15 +16,15 @@ import Signup from './pages/auth/Signup';
 import ForgotPassword from './pages/auth/ForgotPassword';
 
 // Admin Components
-import AdminDashboard from './pages/admin/Dashboard';
-import AdminVisitorCheckin from './pages/admin/VisitorCheckin';
-import AdminSecurity from './pages/admin/Security';
-import AdminEvents from './pages/admin/Events';
-import AdminEmergency from './pages/admin/Emergency';
-import AdminVolunteers from './pages/admin/Volunteers';
-import AdminReports from './pages/admin/Reports';
-import AdminSchoolManagementSystem from './pages/admin/SchoolManagementSystem';
-import AdminPlaceholderPage from './pages/admin/PlaceholderPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminVisitorCheckin from './pages/admin/AdminVisitorCheckin';
+import AdminSecurity from './pages/admin/AdminSecurity';
+import AdminEvents from './pages/admin/AdminEvents';
+import AdminEmergency from './pages/admin/AdminEmergency';
+import AdminVolunteers from './pages/admin/AdminVolunteers';
+import AdminReports from './pages/admin/AdminReports';
+import AdminSchoolManagementSystem from './pages/admin/AdminSchoolManagementSystem';
+import AdminPlaceholderPage from './pages/admin/AdminPlaceholderPage';
 
 const App = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -63,6 +63,8 @@ const App = () => {
       // For API login, we assume it was successful since we're navigating to dashboard
       // The token check is already done in the useEffect
       console.log('Login processed for:', email);
+      // Always set authenticated to true after successful API login
+      setIsAuthenticated(true);
       return true;
     }
   };
@@ -72,6 +74,11 @@ const App = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
+  };
+
+  // Function to manually set authentication (for debugging)
+  const setAuth = (authenticated: boolean) => {
+    setIsAuthenticated(authenticated);
   };
 
   const handleSignup = (userData: any) => {
@@ -85,8 +92,8 @@ const App = () => {
     <Routes>
       {/* Authentication Routes */}
       <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
-      <Route path="/login" element={<Login onLogin={handleLogin} setAuth={setIsAuthenticated} />} />
-      <Route path="/admin/login" element={<Login onLogin={handleLogin} setAuth={setIsAuthenticated} />} />
+      <Route path="/login" element={<Login onLogin={handleLogin} setAuth={setAuth} />} />
+      <Route path="/admin/login" element={<Login onLogin={handleLogin} setAuth={setAuth} />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       
       {/* Protected Routes - Regular User */}
@@ -139,7 +146,7 @@ const App = () => {
       </Layout> : <Navigate to="/login" />} />
       
       {/* Admin Routes - Nested under /admin */}
-      <Route path="/admin" element={isAuthenticated ? <Layout onLogout={handleLogout} isAdmin={true} /> : <Navigate to="/admin/login" />}>
+      <Route path="/admin" element={isAuthenticated ? <Layout onLogout={handleLogout} isAdmin={true} /> : <Navigate to="/admin/login" /> }>
         <Route index element={<AdminDashboard currentTime={currentTime} emergencyStatus={emergencyStatus} visitorCount={42} />} />
         <Route path="dashboard" element={<AdminDashboard currentTime={currentTime} emergencyStatus={emergencyStatus} visitorCount={42} />} />
         <Route path="emergency" element={<AdminEmergency emergencyStatus={emergencyStatus} setEmergencyStatus={setEmergencyStatus} />} />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Shield,Clock,RefreshCw,Users,Bell,Calendar,Zap,UserPlus,AlertTriangle,FileText,TrendingUp,BarChart3,Activity, 
   MapPin,UserCheck } from 'lucide-react';
@@ -27,6 +28,24 @@ interface ActivityItem {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ currentTime, emergencyStatus, visitorCount, onNavigate }) => {
+  const navigate = useNavigate();
+
+  // Check if user is an admin and redirect to admin dashboard if so
+  useEffect(() => {
+    // In a real app, you would check user role from context or auth state
+    // For now, we'll check if a specific item exists in localStorage that indicates admin role
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const userData = JSON.parse(user);
+        if (userData.role === 'admin' || userData.role === 'teacher') {
+          navigate('/admin/dashboard');
+        }
+      } catch (e) {
+        console.log('Could not parse user data');
+      }
+    }
+  }, [navigate]);
   // State declarations
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

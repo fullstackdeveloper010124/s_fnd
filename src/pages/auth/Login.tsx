@@ -275,35 +275,7 @@ const Login = ({ onLogin, setAuth }: LoginProps) => {
             </div>
           )}
                         
-          {/* Security tip */}
-          {loginAttempts === 0 && (
-            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-              <p className="text-blue-700 text-sm">
-                <Shield className="inline h-4 w-4 mr-1" /> Secure login: Always check the URL before entering your credentials
-              </p>
-            </div>
-          )}
-                        
-          {/* Password security tips */}
-          {!password && (
-            <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-xl">
-              <h4 className="font-medium text-gray-700 mb-2">Password Security Tips:</h4>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-2"></div>
-                  <span>Use at least 8 characters</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-2"></div>
-                  <span>Include uppercase and lowercase letters</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-2"></div>
-                  <span>Add numbers and special characters</span>
-                </li>
-              </ul>
-            </div>
-          )}
+
 
           {/* Conditional Sections - Role Selection or Admin Header */}
           <div>
@@ -445,45 +417,7 @@ const Login = ({ onLogin, setAuth }: LoginProps) => {
                 </p>
               )}
               
-              {!passwordError && password && (
-                <div className="mt-2">
-                  <div className="w-full bg-gray-200 rounded-full h-1.5">
-                    <div 
-                      className={`h-1.5 rounded-full ${
-                        passwordStrength < 3 ? 'bg-red-500' : 
-                        passwordStrength < 5 ? 'bg-yellow-500' : 
-                        'bg-green-500'
-                      }`}
-                      style={{ width: `${(passwordStrength / 5) * 100}%` }}
-                    ></div>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Password strength: {
-                      passwordStrength < 3 ? 'Weak' : 
-                      passwordStrength < 5 ? 'Medium' : 
-                      'Strong'
-                    }
-                  </p>
-                </div>
-              )}
-              
-              {!passwordError && password && passwordStrength < 3 && (
-                <p className="mt-2 text-xs text-red-500">
-                  For better security, use a stronger password with uppercase, lowercase, numbers and special characters
-                </p>
-              )}
-              
-              {!passwordError && password && passwordStrength >= 3 && passwordStrength < 5 && (
-                <p className="mt-2 text-xs text-yellow-500">
-                  Consider adding more character variety for a stronger password
-                </p>
-              )}
-              
-              {!passwordError && password && passwordStrength >= 5 && (
-                <p className="mt-2 text-xs text-green-500">
-                  Great! Your password is strong.
-                </p>
-              )}
+
             </div>
 
             <div className="flex items-center justify-between">
